@@ -4,12 +4,17 @@ const app = express();
 
 app.set('view engine', 'hbs');
 
+// magic lines for configuration
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
+
 // Controllers-------------------
 // const Todo = require('./models/todo-model')
 
 const todoController = require('./controllers/todos')
 
 app.use('/todos' , todoController)
+
 
 // End controllers---------------
 

@@ -5,12 +5,33 @@ const Todo = require('../models/todo-model')
 
 // index routes
 router.get('/', (req, res) => {
+
     Todo.find({})
     .then(todos => {
         console.log(todos);
         console.log("in the todos route");
         res.render('index', {todos: todos}); 
     })
+})
+
+// new route
+router.get('/new', (req, res) => {
+    // res.send("new route is returing!")
+    res.render('new')
+})
+
+// create route
+router.post('/', (req, res) => {
+    // todo - how do i get the info from the form?
+    // const reqBody = req.body
+    // console.log(reqBody);
+    // todo - communicate with DB
+    Todo.create(req.body)
+        .then(todo => {
+            // console.log(todo);
+            res.redirect('/todos')
+        })
+
 })
 
 // show routes---------------
@@ -25,5 +46,7 @@ router.get('/:id', (req, res) => {
         res.render('show', todo)
     })
 })
+
+
 
 module.exports = router
