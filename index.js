@@ -1,12 +1,12 @@
 const express = require('express');
-// const Todo = require('./models/todo-model');
+const methodOverride = require('method-override');
 const app = express();
-
 app.set('view engine', 'hbs');
 
 // magic lines for configuration
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
+app.use(methodOverride('_method'))
 
 // Controllers-------------------
 // const Todo = require('./models/todo-model')

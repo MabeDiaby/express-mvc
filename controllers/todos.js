@@ -1,4 +1,5 @@
 const express = require('express');
+const { render } = require('express/lib/response');
 const router = express.Router();
 
 const Todo = require('../models/todo-model')
@@ -33,6 +34,44 @@ router.post('/', (req, res) => {
         })
 
 })
+
+// edit route
+router.get('/:id/edit', (req, res) => {
+    // res.send("EDIT route is ok")
+    Todo.findById(req.params.id)
+        .then(todo => {
+            res.render('edit', todo)
+        })
+})
+
+// update route
+router.put('/:id', (req, res) => {
+    // res.send("UPDATE route was reached!")
+    const id = req.params.id
+    Todo.findOneAndUpdate(
+        {_id:id},
+        {
+            title: req.body.title,
+            complete: req.body.complete === 'on'
+        },
+        {new: true},
+    )
+        .then(todo => {
+            res.render('show', todo)
+        })
+})
+
+// delete route
+
+// Delete: DELETE the todo with a given id from the database
+router.delete('/:id', (req, res) => {
+    const id = req.params.id;
+    Todo.findOneAndRemove({ _id: id })
+      .then(() => {
+        res.redirect('/todos');
+      })
+      .catch(console.error);
+  });
 
 // show routes---------------
 router.get('/:id', (req, res) => {
